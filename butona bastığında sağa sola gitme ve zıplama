@@ -1,0 +1,59 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class playerMovement : MonoBehaviour
+{
+    Rigidbody2D myBody;
+    public float hIpnut = 0;
+    public float speed = 5f;
+    public bool isGround = false;
+    Transform tagGround;
+    public LayerMask layer;
+    public float speedJump = 10f;
+
+
+
+
+    private void Start()
+    {
+        myBody = this.GetComponent<Rigidbody2D>();
+        tagGround = GameObject.Find(this.name + "tag_Ground").transform;
+
+
+
+    }
+    private void Update()
+    {
+        isGround=Physics2D.Linecast(this.transform.position, tagGround.position, layer);
+        Move(hIpnut);
+
+    }
+    public void Move(float horizonral)
+    {
+        Vector2 vel = myBody.velocity;
+        vel.x = horizonral * speed;
+        myBody.velocity = vel;
+        
+
+    }
+    public void MobileMove(float input)
+    {
+        hIpnut = input;
+    }
+    public void jump()
+    {
+
+
+        if (isGround)
+        {
+            myBody.velocity += Vector2.up * speedJump;
+        }
+    }
+
+
+
+
+
+
+}
